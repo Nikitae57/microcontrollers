@@ -250,11 +250,9 @@ void makeTick() {
  146:	85 b9       	out	0x05, r24	; 5
 			break;
  148:	08 95       	ret
+		}
+		
 		case 2: {
-			//PORTB = (PORTB << 1);
-			//if (!(PORTB & (1 << 1))) {
-			//	PORTB++; // If penultimate light is off then turn on last light
-			//}
 			PORTB = PORTB ^ 0xff;
  14a:	85 b1       	in	r24, 0x05	; 5
  14c:	80 95       	com	r24
@@ -307,7 +305,6 @@ void changeMode() {
  188:	70 e0       	ldi	r23, 0x00	; 0
  18a:	2a d0       	rcall	.+84     	; 0x1e0 <__divmodhi4>
  18c:	80 93 04 02 	sts	0x0204, r24	; 0x800204 <__data_end>
-	
 	switch(mode) {
  190:	81 30       	cpi	r24, 0x01	; 1
  192:	39 f0       	breq	.+14     	; 0x1a2 <changeMode+0x24>

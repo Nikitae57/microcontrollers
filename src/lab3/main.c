@@ -8,7 +8,7 @@
 
 bool shouldRun = true;
 uint8_t mode = 0;
-uint16_t delayMs = 200;
+uint8_t delay = 50;
 
 ISR(INT0_vect) {
 	cli();
@@ -24,9 +24,19 @@ ISR(INT1_vect) {
 
 ISR(INT2_vect) {
 	cli();
-	//increaseDelay();
+	increaseDelay();
 	sei();
 }
+
+void increaseDelay() {
+	if (delay >= 250) {
+		delay = 0;
+	}
+	
+	delay += 50;
+	OCR0A = delay;
+}
+
 
 void makeTick() {
 	if (!shouldRun) {
@@ -62,6 +72,7 @@ void changeMode() {
 	switch(mode) {
 		case 0: {
 			TCCR0A = 0x02; // CTC
+			TCCR0B = 0x05;
 			PORTB = 0xff; // Blink
 			PORTF = 0b00000001;
 			break;
@@ -69,13 +80,15 @@ void changeMode() {
 		
 		case 1: {
 			TCCR0A = 0x40; // Normal
+			TCCR0B = 0x05;
 			PORTB = 0xff; // Constant light
 			PORTF = 0b00000010;
 			break;
 		}
 		
 		case 2: { // Moving light
-			TCCR0A = 0x03; // Fast PWM
+			TCCR0B = (1 << WGM02) | 0x05;
+			TCCR0A = (1 << WGM01) | (1 << WGM00) | (1 << COM0A0); // Fast PWM
 			PORTB = 0b10101010;
 			PORTF = 0b00000100;
 			break;
@@ -92,22 +105,14 @@ int main(void) {
 	PORTF = 0b00000001;
 	sei();
 
-	OCR0A = 200;
+	OCR0A = 50;
 	TCCR0A = 0x02; // CTC
 	TCCR0B = 0x05;
-	//OCR0A = 255;
-	//TIMSK1 = 1;
-	//TCCR0B = 0b00000101;
 
 	while (1) {
-		if (TCNT0 == 1) {
+		if (TCNT0 == 0) {
 			makeTick();
-			//PORTF ^= 0xff;
-			//PORTB = PORTB^0xff;
 		}
-		
-		//makeTick();
-		//dynamicDelay(delayMs);
 	}
 }
 

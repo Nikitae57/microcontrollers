@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1587827480 source:d:\projects\micro\src\lab4\lab4\main.cpp
+	<iostream>
+	"Serial.h"
+
+1587827601 d:\projects\micro\src\lab4\lab4\serial.h
+	<string>
+	<windows.h>
+
+1587827795 source:d:\projects\micro\src\lab4\lab4\serial.cpp
+	<iostream>
+	"Serial.h"
+
+1587827795 source:d:\projects\micro\src\lab4_terminal\serial.cpp
+	<iostream>
+	"Serial.h"
+
+1587827601 d:\projects\micro\src\lab4_terminal\serial.h
+	<string>
+	<windows.h>
+
+1587836599 source:d:\projects\micro\src\lab4_terminal\main.cpp
+	<iostream>
+	"Serial.h"
+

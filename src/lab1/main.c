@@ -39,12 +39,7 @@ void makeTick() {
 		}
 		
 		case 2: {
-			//PORTB = (PORTB << 1);
-			//if (!(PORTB & (1 << 1))) {
-			//	PORTB++; // If penultimate light is off then turn on last light
-			//}
 			PORTB = PORTB ^ 0xff;
-			
 			break;
 		}
 	}
@@ -59,7 +54,6 @@ void increaseDelay() {
 
 void changeMode() {
 	mode = (mode + 1) % 3;
-	
 	switch(mode) {
 		case 0: {
 			PORTB = 0xff; // Blink

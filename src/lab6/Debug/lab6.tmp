@@ -1,0 +1,29 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.7</VERSION>
+ <DEVICE>"ATmega1281"</DEVICE>
+ <WORKING_DIR>D:\projects\micro\src\lab6\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\projects\micro\src\lab6\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m1281def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\projects\micro\src\lab6\Debug\lab6.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>lab6.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>lab6.map</FILE>
+  <FILE>lab6.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <START><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>20</LINE></START>
+  <INIT><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>26</LINE></INIT>
+  <MAIN_LOOP><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>22</LINE></MAIN_LOOP>
+ </LABELS>
+</ASSEMBLER_INFO>
