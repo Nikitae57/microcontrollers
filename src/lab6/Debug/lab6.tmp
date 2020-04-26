@@ -22,8 +22,25 @@
   <FILE>lab6.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <START><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>20</LINE></START>
-  <INIT><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>26</LINE></INIT>
-  <MAIN_LOOP><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>22</LINE></MAIN_LOOP>
+  <START><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>22</LINE></START>
+  <INT0_VEC><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>102</LINE></INT0_VEC>
+  <INT1_VEC><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>115</LINE></INT1_VEC>
+  <INT2_VEC><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>187</LINE></INT2_VEC>
+  <init><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>36</LINE></init>
+  <MAIN_LOOP><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>24</LINE></MAIN_LOOP>
+  <main_loop_tick><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>31</LINE></main_loop_tick>
+  <make_tick><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>66</LINE></make_tick>
+  <tick><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>76</LINE></tick>
+  <mode_0><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>86</LINE></mode_0>
+  <mode_1><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>91</LINE></mode_1>
+  <mode_2><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>96</LINE></mode_2>
+  <turn_on><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>110</LINE></turn_on>
+  <reset_mode><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>123</LINE></reset_mode>
+  <set_mode><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>126</LINE></set_mode>
+  <set_mode_0><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>136</LINE></set_mode_0>
+  <set_mode_1><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>152</LINE></set_mode_1>
+  <set_mode_2><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>168</LINE></set_mode_2>
+  <reset_delay><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>194</LINE></reset_delay>
+  <increase_delay><FILE>D:\projects\micro\src\lab6\main.asm</FILE><LINE>197</LINE></increase_delay>
  </LABELS>
 </ASSEMBLER_INFO>

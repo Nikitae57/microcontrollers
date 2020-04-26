@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  D:\projects\micro\src\lab6\main.asm Sun Apr 26 20:51:18 2020
+AVRASM ver. 2.2.7  D:\projects\micro\src\lab6\main.asm Sun Apr 26 20:15:44 2020
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m1281def.inc'
 D:\projects\micro\src\lab6\main.asm(8): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m1281def.inc'
@@ -1619,41 +1619,196 @@ D:\projects\micro\src\lab6\main.asm(8): Including file 'C:/Program Files (x86)\A
                                  .def shouldRunReg = r16
                                  .def modeReg = r17
                                  .def tmp = r18
+                                 .def delayReg = r19
+                                 .def lightStateReg = r20
                                  
                                  .cseg 
-000000 940c 0002                 .org 0 jmp START
-                                 ;;.org $0002 jmp INT0_VEC
-                                 ;;.org $0004 jmp INT1_VEC
-                                 ;;.org $0006 jmp INT2_VEC
+000000 940c 0008                 .org 0 jmp START
+000002 940c 003b                 .org $0002 jmp INT0_VEC
+000004 940c 0042                 .org $0004 jmp INT1_VEC
+000006 940c 006f                 .org $0006 jmp INT2_VEC
                                  
                                  START:
-000002 d001                          rcall INIT
+000008 d008                          rcall init
                                  	MAIN_LOOP:
+000009 b526                      		in tmp, TCNT0
+00000a 3020                      		cpi tmp, 0
+00000b f011                      		breq main_loop_tick
                                  
-000003 cfff                          rjmp MAIN_LOOP
+00000c 940c 0009                 		jmp MAIN_LOOP
                                  
-                                 INIT:
-000004 ef2f                      	ser tmp
-000005 b924                      	out DDRB, tmp
-000006 bb20                      	out DDRF, tmp
+                                 		main_loop_tick:
+00000e 940e 0026                 			call make_tick
                                  
-000007 e32f                      	ldi tmp, 0b00111111
-000008 9320 0069                 	sts EICRA, tmp
+000010 cff8                          rjmp MAIN_LOOP
                                  
-00000a e027                      	ldi tmp, 0b00000111
-00000b bb2d                      	out EIMSK, tmp
+                                 init:
+000011 9478                      	sei
                                  
-00000c e021                      	ldi tmp, 1
-00000d bb21                      	out PORTF, tmp
+000012 ef2f                      	ser tmp
+000013 b924                      	out DDRB, tmp
+000014 bb20                      	out DDRF, tmp
                                  
-00000e e322                      	ldi tmp, 50
-00000f bd27                      	out OCR0A, tmp
+000015 e32f                      	ldi tmp, 0b00111111
+000016 9320 0069                 	sts EICRA, tmp
                                  
-000010 e022                      	ldi tmp, 0x02
-000011 bd24                      	out TCCR0A, tmp
+000018 e027                      	ldi tmp, 0b00000111
+000019 bb2d                      	out EIMSK, tmp
+                                 
+00001a e021                      	ldi tmp, 1
+00001b bb21                      	out PORTF, tmp
+                                 
+00001c ef3a                      	ldi delayReg, 250
+00001d bd37                      	out OCR0A, delayReg
+                                 
+00001e e022                      	ldi tmp, 0x02
+00001f bd24                      	out TCCR0A, tmp
                                  	
-000012 e025                      	ldi tmp, 0x05
-000013 bd25                      	out TCCR0B, tmp
+000020 e025                      	ldi tmp, 0x05
+000021 bd25                      	out TCCR0B, tmp
+                                 
+000022 e001                      	ldi shouldRunReg, 1
+000023 ef4f                      	ldi lightStateReg, 0xff
+000024 b945                      	out PORTB, lightStateReg
+000025 9508                      ret
+                                 
+                                 make_tick:
+000026 3001                      	cpi shouldRunReg, 1
+000027 f019                      	breq tick
+                                 
+                                 	;; Shut down	
+000028 2722                      	clr tmp
+000029 b925                      	out PORTB, tmp
+00002a 9508                      	ret
+                                 
+                                 	;; Make tick
+                                 	tick:
+00002b 3010                      		cpi modeReg, 0
+00002c f021                      		breq mode_0
+                                 
+00002d 3011                      		cpi modeReg, 1
+00002e f029                      		breq mode_1
+                                 
+00002f 3012                      		cpi modeReg, 2
+000030 f031                      		breq mode_2
+                                 
+                                 		mode_0:
+000031 9540                      			com lightStateReg
+000032 b945                      			out PORTB, lightStateReg
+000033 9508                      			ret
+                                 
+                                 		mode_1:
+000034 ef4f                      			ser lightStateReg
+000035 b945                      			out PORTB, lightStateReg
+000036 9508                      			ret
+                                 
+                                 		mode_2:
+000037 9540                      			com lightStateReg
+000038 b945                      			out PORTB, lightStateReg
+000039 9508                      			ret
+00003a 9508                      ret
+                                 
+                                 INT0_VEC:
+00003b 94f8                      	cli
+00003c 3000                      		cpi shouldRunReg, 0
+00003d f009                      		breq turn_on
+                                 
+                                 		;; If we here, then light is turned on. Need to turn off
+00003e e000                      		ldi shouldRunReg, 0
+                                 
+                                 		turn_on:
+00003f e001                      			ldi shouldRunReg, 1
+000040 9478                      	sei
+000041 9518                      reti
+                                 
+                                 INT1_VEC:
+000042 94f8                      	cli
+000043 9513                      		inc modeReg
+                                 		
+000044 3013                      		cpi modeReg, 3
+000045 f011                      		breq reset_mode
+                                 
+000046 940c 0049                 		jmp set_mode
+                                 		reset_mode:
+000048 2711                      			clr modeReg
+                                 			
+                                 		set_mode:
+000049 3010                      			cpi modeReg, 0
+00004a f021                      			breq set_mode_0
+                                 
+00004b 3011                      			cpi modeReg, 1
+00004c f061                      			breq set_mode_1
+                                 
+00004d 3012                      			cpi modeReg, 2
+00004e f0a1                      			breq set_mode_2
+                                 
+                                 			set_mode_0:
+00004f e022                      				ldi tmp, 2
+000050 bd24                      				out TCCR0A, tmp
+                                 
+000051 e025                      				ldi tmp, 5
+000052 bd25                      				out TCCR0B, tmp
+                                 
+000053 ef4f                      				ldi lightStateReg, 0xff
+000054 b945                      				out PORTB, lightStateReg
+                                 
+000055 e021                      				ldi tmp, 1
+000056 bb21                      				out PORTF, tmp
+                                 				
+000057 9478                      				sei
+000058 9518                      				reti
+                                 
+                                 			set_mode_1:
+000059 e420                      				ldi tmp, 0x40
+00005a bd24                      				out TCCR0A, tmp
+                                 
+00005b e025                      				ldi tmp, 5
+00005c bd25                      				out TCCR0B, tmp
+                                 
+00005d ef4f                      				ldi lightStateReg, 0xff
+00005e b945                      				out PORTB, lightStateReg
+                                 
+00005f e022                      				ldi tmp, 2
+000060 bb21                      				out PORTF, tmp
+                                 				
+000061 9478                      				sei
+000062 9518                      				reti
+                                 
+                                 			set_mode_2:
+000063 e423                      				ldi tmp, 0b01000011
+000064 bd24                      				out TCCR0A, tmp
+                                 
+000065 e02d                      				ldi tmp, 0b00001101
+000066 bd25                      				out TCCR0B, tmp
+                                 
+000067 ea4a                      				ldi lightStateReg, 0b10101010
+000068 b945                      				out PORTB, lightStateReg
+                                 
+000069 e024                      				ldi tmp, 4
+00006a bb21                      				out PORTF, tmp
+                                 				
+00006b 9478                      				sei
+00006c 9518                      				reti
+                                 
+00006d 9478                      	sei
+00006e 9518                      reti
+                                 
+                                 INT2_VEC:
+00006f 94f8                      	cli
+                                 	
+000070 3f3a                      	cpi delayReg, 250
+000071 f011                      	breq reset_delay
+                                 
+000072 940c 0075                 	jmp increase_delay
+                                 	reset_delay:
+000074 e030                      		ldi delayReg, 0
+                                 
+                                 	increase_delay:
+000075 e322                      		ldi tmp, 50
+000076 0f32                      		add delayReg, tmp
+000077 bd37                      		out OCR0A, delayReg
+                                 
+000078 9478                      	sei
 
 
 RESOURCE USE INFORMATION
@@ -1673,38 +1828,38 @@ counted separately from r26..r31 here.
 "ATmega1281" register use summary:
 x  :   0 y  :   0 z  :   0 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:   0 r17:   0 r18:  15 r19:   0 r20:   0 
+r13:   0 r14:   0 r15:   0 r16:   5 r17:   9 r18:  37 r19:   6 r20:  14 
 r21:   0 r22:   0 r23:   0 r24:   0 r25:   0 r26:   0 r27:   0 r28:   0 
 r29:   0 r30:   0 r31:   0 
-Registers used: 1 out of 35 (2.9%)
+Registers used: 5 out of 35 (14.3%)
 
 "ATmega1281" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   0 
+.lds  :   0 .sts  :   0 adc   :   0 add   :   1 adiw  :   0 and   :   0 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   0 brge  :   0 brhc  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :  11 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
 brne  :   0 brpl  :   0 brsh  :   0 brtc  :   0 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   0 cbr   :   0 
-clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
-clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 cpc   :   0 
-cpi   :   0 cpse  :   0 dec   :   0 elpm  :   0 eor   :   0 fmul  :   0 
-fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   0 
-jmp   :   1 ld    :   0 ldd   :   0 ldi   :   6 lds   :   0 lpm   :   0 
+brvs  :   0 bset  :   0 bst   :   0 call  :   1 cbi   :   0 cbr   :   0 
+clc   :   0 clh   :   0 cli   :   3 cln   :   0 clr   :   2 cls   :   0 
+clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   0 cpc   :   0 
+cpi   :  11 cpse  :   0 dec   :   0 elpm  :   0 eor   :   0 fmul  :   0 
+fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   1 
+jmp   :   7 ld    :   0 ldd   :   0 ldi   :  24 lds   :   0 lpm   :   0 
 lsl   :   0 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 
-mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   7 
-pop   :   0 push  :   0 rcall :   1 ret   :   1 reti  :   0 rjmp  :   1 
+mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  25 
+pop   :   0 push  :   0 rcall :   1 ret   :   6 reti  :   6 rjmp  :   1 
 rol   :   0 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 
 sbis  :   0 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 
-seh   :   0 sei   :   0 sen   :   0 ser   :   1 ses   :   0 set   :   0 
+seh   :   0 sei   :   7 sen   :   0 ser   :   2 ses   :   0 set   :   0 
 sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 
 sts   :   1 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
 
-Instructions used: 8 out of 114 (7.0%)
+Instructions used: 19 out of 114 (16.7%)
 
 "ATmega1281" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00002a     42      0     42  131072   0.0%
+[.cseg] 0x000000 0x0000f4    244      0    244  131072   0.2%
 [.dseg] 0x000200 0x000200      0      0      0    8192   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    4096   0.0%
 

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  D:\projects\micro\src\lab6\main.asm Sun Apr 26 20:51:18 2020
+AVRASM ver. 2.2.7  D:\projects\micro\src\lab6\main.asm Sun Apr 26 20:15:44 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -1167,6 +1167,25 @@ EQU  INT_VECTORS_SIZE 00000072
 DEF  shouldRunReg r16
 DEF  modeReg      r17
 DEF  tmp          r18
-CSEG START        00000002
-CSEG INIT         00000004
-CSEG MAIN_LOOP    00000003
+DEF  delayReg     r19
+DEF  lightStateReg r20
+CSEG START        00000008
+CSEG INT0_VEC     0000003b
+CSEG INT1_VEC     00000042
+CSEG INT2_VEC     0000006f
+CSEG init         00000011
+CSEG MAIN_LOOP    00000009
+CSEG main_loop_tick 0000000e
+CSEG make_tick    00000026
+CSEG tick         0000002b
+CSEG mode_0       00000031
+CSEG mode_1       00000034
+CSEG mode_2       00000037
+CSEG turn_on      0000003f
+CSEG reset_mode   00000048
+CSEG set_mode     00000049
+CSEG set_mode_0   0000004f
+CSEG set_mode_1   00000059
+CSEG set_mode_2   00000063
+CSEG reset_delay  00000074
+CSEG increase_delay 00000075

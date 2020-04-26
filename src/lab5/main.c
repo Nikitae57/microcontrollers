@@ -1,32 +1,17 @@
-
-
 #include <avr/io.h>
 #include <avr/delay.h>
 #include <stdbool.h>
 #include <avr/interrupt.h>
 
+#define F_CPU 1000000UL 
+#define BITRATE 9600
+#define BAUD F_CPU / (16 * BITRATE) - 1
+
 
 bool shouldRun = true;
 uint8_t mode = 0;
 uint8_t delay = 50;
-
-ISR(INT0_vect) {
-	cli();
-	shouldRun = !shouldRun;
-	sei();
-}
-
-ISR(INT1_vect) {
-	cli();
-	changeMode();
-	sei();
-}
-
-ISR(INT2_vect) {
-	cli();
-	increaseDelay();
-	sei();
-}
+char comMsg;
 
 void increaseDelay() {
 	if (delay >= 250) {
@@ -36,7 +21,6 @@ void increaseDelay() {
 	delay += 50;
 	OCR0A = delay;
 }
-
 
 void makeTick() {
 	if (!shouldRun) {
@@ -70,7 +54,7 @@ void changeMode() {
 			TCCR0A = 0x02; // CTC
 			TCCR0B = 0x05;
 			PORTB = 0xff; // Blink
-			PORTF = 1;
+			PORTF = 0b00000001;
 			break;
 		}
 		
@@ -92,6 +76,30 @@ void changeMode() {
 	}
 }
 
+char udr;
+ISR(USART0_RX_vect) {
+	udr = UDR0;
+	
+	switch(udr) {
+		case 'm': {
+			changeMode();
+			break;
+		}
+		
+		case 'r': {
+			shouldRun = !shouldRun;
+			break;
+		}
+		
+		case 's': {
+			increaseDelay();
+			break;
+		}
+		
+		default: {}
+	}
+}
+
 int main(void) {
 	DDRA = 0;
 	DDRB = 0xff;
@@ -99,11 +107,15 @@ int main(void) {
 	EICRA = 0b00111111;
 	EIMSK = 0b00000111;
 	PORTF = 0b00000001;
-	sei();
 
 	OCR0A = 50;
 	TCCR0A = 0x02; // CTC
 	TCCR0B = 0x05;
+
+	UCSR0B = 0b10010000;
+	UBRR0L = 0x06;
+	
+	sei();
 
 	while (1) {
 		if (TCNT0 == 0) {
