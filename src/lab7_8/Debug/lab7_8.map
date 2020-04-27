@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.7  D:\projects\micro\src\lab6\main.asm Mon Apr 27 18:41:08 2020
+AVRASM ver. 2.2.7  D:\projects\micro\src\lab7_8\main.asm Mon Apr 27 18:42:20 2020
 
 
 EQU  SIGNATURE_000 0000001e
@@ -1164,28 +1164,35 @@ EQU  URXC3addr    0000006c
 EQU  UDRE3addr    0000006e
 EQU  UTXC3addr    00000070
 EQU  INT_VECTORS_SIZE 00000072
+EQU  CRYSTAL_FREQ 000f4240
+EQU  BAUD         00002580
 DEF  shouldRunReg r16
 DEF  modeReg      r17
 DEF  tmp          r18
 DEF  delayReg     r19
 DEF  lightStateReg r20
-CSEG START        00000008
-CSEG INT0_VEC     0000003b
-CSEG INT1_VEC     00000044
-CSEG INT2_VEC     00000071
-CSEG init         00000011
-CSEG MAIN_LOOP    00000009
-CSEG main_loop_tick 0000000e
-CSEG make_tick    00000026
-CSEG tick         0000002b
-CSEG mode_0       00000031
-CSEG mode_1       00000034
-CSEG mode_2       00000037
-CSEG turn_on      00000041
-CSEG reset_mode   0000004a
-CSEG set_mode     0000004b
-CSEG set_mode_0   00000051
-CSEG set_mode_1   0000005b
-CSEG set_mode_2   00000065
-CSEG reset_delay  00000076
-CSEG increase_delay 00000077
+DEF  udrReg       r21
+CSEG START        00000034
+CSEG USART0_RX    000000a4
+CSEG init         0000003d
+CSEG MAIN_LOOP    00000035
+CSEG main_loop_tick 0000003a
+CSEG make_tick    00000058
+CSEG tick         0000005d
+CSEG mode_0       00000063
+CSEG mode_1       00000066
+CSEG mode_2       00000069
+CSEG switch_light 0000006d
+CSEG turn_on      00000071
+CSEG change_mode  00000073
+CSEG reset_mode   00000078
+CSEG set_mode     00000079
+CSEG set_mode_0   0000007f
+CSEG set_mode_1   00000088
+CSEG set_mode_2   00000091
+CSEG change_delay 0000009b
+CSEG reset_delay  0000009f
+CSEG increase_delay 000000a0
+CSEG usart_change_mode 000000ad
+CSEG usart_switch_light 000000b1
+CSEG usart_change_delay 000000b5

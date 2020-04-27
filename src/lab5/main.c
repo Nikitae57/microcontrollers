@@ -78,8 +78,9 @@ void changeMode() {
 
 char udr;
 ISR(USART0_RX_vect) {
-	udr = UDR0;
+	cli();
 	
+	udr = UDR0;
 	switch(udr) {
 		case 'm': {
 			changeMode();
@@ -98,6 +99,8 @@ ISR(USART0_RX_vect) {
 		
 		default: {}
 	}
+	
+	sei();
 }
 
 int main(void) {

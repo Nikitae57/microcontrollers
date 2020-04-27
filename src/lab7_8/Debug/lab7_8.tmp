@@ -1,0 +1,50 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.7</VERSION>
+ <DEVICE>"ATmega1281"</DEVICE>
+ <WORKING_DIR>D:\projects\micro\src\lab7_8\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>D:\projects\micro\src\lab7_8\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\avrasm\inc\m1281def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>D:\projects\micro\src\lab7_8\Debug\lab7_8.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>lab7_8.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>lab7_8.map</FILE>
+  <FILE>lab7_8.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <START><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>25</LINE></START>
+  <USART0_RX><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>200</LINE></USART0_RX>
+  <init><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>39</LINE></init>
+  <MAIN_LOOP><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>27</LINE></MAIN_LOOP>
+  <main_loop_tick><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>34</LINE></main_loop_tick>
+  <make_tick><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>75</LINE></make_tick>
+  <tick><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>85</LINE></tick>
+  <mode_0><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>95</LINE></mode_0>
+  <mode_1><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>100</LINE></mode_1>
+  <mode_2><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>105</LINE></mode_2>
+  <switch_light><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>111</LINE></switch_light>
+  <turn_on><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>119</LINE></turn_on>
+  <change_mode><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>123</LINE></change_mode>
+  <reset_mode><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>130</LINE></reset_mode>
+  <set_mode><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>133</LINE></set_mode>
+  <set_mode_0><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>143</LINE></set_mode_0>
+  <set_mode_1><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>157</LINE></set_mode_1>
+  <set_mode_2><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>171</LINE></set_mode_2>
+  <change_delay><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>186</LINE></change_delay>
+  <reset_delay><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>191</LINE></reset_delay>
+  <increase_delay><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>194</LINE></increase_delay>
+  <usart_change_mode><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>214</LINE></usart_change_mode>
+  <usart_switch_light><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>219</LINE></usart_switch_light>
+  <usart_change_delay><FILE>D:\projects\micro\src\lab7_8\main.asm</FILE><LINE>224</LINE></usart_change_delay>
+ </LABELS>
+</ASSEMBLER_INFO>
